@@ -1,13 +1,18 @@
+import Modal from "./Modal"
+import { useState } from "react"
 import { IProductlist } from "../data"
 import { useBill } from "../provider/BillContext"
 
 function SubmitOrder() {
+    const [open, setOpen]= useState(false);
     const { bill, setBill }= useBill();
     const total= bill.reduce((acc: number, order: IProductlist) => acc+ order.price* order.quantity, 0);
 
     const submit= () =>{
         const updatedBill= bill.map((order: IProductlist) => ({ ...order, quantity: 0 }))
         setBill(updatedBill);
+        localStorage.setItem("bill", JSON.stringify(updatedBill));
+        setOpen(true);
     }
 
     return (
@@ -18,6 +23,7 @@ function SubmitOrder() {
             >
                 Submit Order
             </button>
+            {open && <Modal close={() => setOpen(false)}/>}
         </section>
     )
 }
