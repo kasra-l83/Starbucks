@@ -5,6 +5,7 @@ type BillContextType= {
     bill: IProductlist[]
     increase: (name: string) => void
     decrease: (name: string) => void
+    setBill: (bill: IProductlist[]) => void
 }
 
 const BillContext= createContext<BillContextType | null>(null);
@@ -29,12 +30,15 @@ export const BillProvider= ({ children }: { children: ReactNode }) =>{
     }
 
     return (
-        <BillContext.Provider value={{ bill, increase, decrease }}>
+        <BillContext.Provider value={{ bill, increase, decrease, setBill }}>
             {children}
         </BillContext.Provider>
     )
 }
 
 export const useBill= () =>{
-    return useContext(BillContext);
+    const context= useContext(BillContext);
+    if (!context) {
+        throw new Error("useBill must be used within a BillProvider");
+    }else return context;
 }
