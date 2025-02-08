@@ -5,8 +5,8 @@ export default {
   ],
   theme: {
     colors: {
-      darkGreen: "#1E3932",
       cream: "#EDC9A0",
+      darkGreen: "#1E3932"
     },
     extend: {}
   },
